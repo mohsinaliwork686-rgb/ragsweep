@@ -217,7 +217,7 @@ slow and excluded from CI.
 | Area | Must work | Must not break |
 |------|-----------|----------------|
 | `metrics` | recall@k, MRR, nDCG match values worked out by hand | empty results, no correct answer found, k larger than the result list |
-| `chunking` | each strategy splits as documented; overlap repeats the right text | empty document; document shorter than one chunk; overlap ≥ chunk size; unicode and emoji not split mid-character |
+| `chunking` | each strategy splits as documented; overlap repeats the right text; every chunk's text equals its own document slice; the chunks cover every character | empty document; document shorter than one chunk; overlap ≥ chunk size; unicode preserved; **no chunk sits wholly inside the previous one** |
 | `corpus` | reads md/txt/html, stable document ids | unreadable file skipped not crashed on; empty folder gives a clear error |
 | `embedding` | cache miss computes and stores; cache hit skips compute | cache key changes with the model name; corrupt cache file is rebuilt, not fatal |
 | `retrievers` | dense, bm25 and hybrid each return top-k in ranked order | all three satisfy the same interface test |
