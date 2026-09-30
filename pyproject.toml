@@ -21,10 +21,10 @@ classifiers = [
   "Programming Language :: Python :: 3.13",
   "Topic :: Scientific/Engineering :: Information Analysis",
 ]
-dependencies = ["rich>=13"]
+dependencies = ["numpy>=1.26", "rich>=13"]
 
 [project.optional-dependencies]
-dense = ["sentence-transformers>=3", "faiss-cpu>=1.8"]
+dense = ["sentence-transformers>=3"]
 dev = ["pytest>=8", "ruff>=0.6"]
 
 [project.scripts]

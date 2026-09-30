@@ -232,7 +232,7 @@ wrong, and nobody would be able to tell.
 
 | Risk | Mitigation |
 |------|------------|
-| `sentence-transformers` pulls in torch, making install slow and heavy | Core install stays light. Dense retrieval lives behind `pip install ragsweep[dense]`. BM25 works with no extras, so the tool is usable immediately |
+| `sentence-transformers` pulls in torch, making install slow and heavy | Core install stays light (numpy and rich). Only the *embedding model* lives behind `pip install ragsweep[dense]`. BM25 is implemented here in ~60 lines and needs no extras, so the tool is usable immediately |
 | The sweep is too slow to be pleasant | The layered sharing in section 4, plus the disk cache. Target: a 27-config sweep over 15 documents in under 60 seconds on a second run |
 | The synthetic corpus looks self-serving | Say plainly in the README that it is synthetic and exists as a worked example, not a benchmark |
 | Hand-written labels are subtly wrong | Keep it to 30 questions so each one can be checked properly. Quality over quantity |
