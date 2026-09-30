@@ -85,8 +85,9 @@ Each stage is a plain function that takes data and returns data. No stage knows 
 |--------|----------------|
 | `corpus.py` | Walk a folder, read `.md` / `.txt` / `.html`, return `Document(id, path, text)` |
 | `chunking.py` | Three strategies, all pure: `fixed`, `sentence`, `recursive`. In: text + size + overlap. Out: `list[Chunk]` |
+| `labels.py` | Read and validate the ground truth file, with line-numbered errors |
 | `embedding.py` | Text to vectors, with a disk cache. The only module that loads a model |
-| `retrievers/` | `dense.py`, `bm25.py`, `hybrid.py` behind one `Retriever` interface |
+| `retrievers/` | `dense.py`, `bm25.py` (written here, no dependency), `hybrid.py` (reciprocal rank fusion) behind one `Retriever` interface |
 | `metrics.py` | `recall_at_k`, `mrr`, `ndcg_at_k`. Pure maths, no dependencies |
 | `sweep.py` | Build the grid, run each combination, collect results, show progress |
 | `results.py` | The results schema, plus read and write |
