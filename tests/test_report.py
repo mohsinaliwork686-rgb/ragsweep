@@ -11,6 +11,7 @@ from ragsweep.report import (
     ReportError,
     best,
     default_metric,
+    metric_order,
     recall_ks,
     render_table,
     sort_runs,
@@ -84,12 +85,18 @@ class TestTable:
     def test_has_one_column_per_k(self, runs):
         rendered = render_table(runs)
         for k in (1, 3, 5):
-            assert f"recall@{k}" in rendered
+            assert f"r@{k}" in rendered
+
+    def test_fits_in_an_eighty_column_terminal(self, runs):
+        """Rich truncates columns that do not fit, which makes the numbers unreadable."""
+        for line in render_table(runs, width=80).splitlines():
+            assert len(line.rstrip()) <= 80
+            assert "\u2026" not in line
 
     def test_marks_the_best_row(self, runs):
         lines = [line for line in render_table(runs).splitlines() if line.strip()]
-        assert "<- best" in lines[1]
-        assert sum("<- best" in line for line in lines) == 1
+        assert lines[1].rstrip().endswith("*")
+        assert sum(line.rstrip().endswith("*") for line in lines) == 1
 
     def test_limit_shortens_the_table(self, runs):
         lines = [line for line in render_table(runs, limit=3).splitlines() if line.strip()]
@@ -125,6 +132,22 @@ class TestCsv:
 
     def test_missing_model_becomes_empty_not_none(self, runs):
         assert ",None," not in to_csv(runs)
+
+    def test_metric_columns_are_in_numeric_order(self, runs):
+        header = to_csv(runs).splitlines()[0].split(",")
+        recalls = [name for name in header if name.startswith("recall@")]
+        assert recalls == ["recall@1", "recall@3", "recall@5"]
+
+
+class TestMetricOrder:
+    def test_sorts_by_k_numerically(self):
+        names = ["recall@10", "recall@1", "recall@5", "mrr", "recall@3"]
+        assert sorted(names, key=metric_order) == [
+            "mrr", "recall@1", "recall@3", "recall@5", "recall@10",
+        ]
+
+    def test_names_without_a_k_come_first(self):
+        assert sorted(["ndcg@5", "mrr"], key=metric_order) == ["mrr", "ndcg@5"]
 
 
 class TestTiming:

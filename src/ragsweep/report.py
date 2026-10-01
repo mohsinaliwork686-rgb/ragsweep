@@ -18,10 +18,21 @@ from rich.table import Table
 from ragsweep.sweep import RunResult
 
 _RECALL = re.compile(r"^recall@(\d+)$")
+_AT_K = re.compile(r"^(.*)@(\d+)$")
 
 
 class ReportError(Exception):
     """A report could not be produced."""
+
+
+def metric_order(name: str) -> tuple[str, int]:
+    """Sort metric names so recall@10 lands after recall@5, not after recall@1.
+
+    Plain alphabetical ordering puts "@10" between "@1" and "@3", which makes a CSV
+    opened in a spreadsheet quietly misleading.
+    """
+    match = _AT_K.match(name)
+    return (match.group(1), int(match.group(2))) if match else (name, -1)
 
 
 def recall_ks(runs: Sequence[RunResult]) -> list[int]:
@@ -83,10 +94,12 @@ def build_table(
     table.add_column("ovl", justify="right")
     if len(models) > 1:
         table.add_column("model")
+    # Short headers and no chunk count: the table has to fit in an 80 column terminal,
+    # or rich truncates the columns and the numbers become unreadable. The full detail
+    # is in the results file for anyone who wants it.
     for k in recall_ks(runs):
-        table.add_column(f"recall@{k}", justify="right")
+        table.add_column(f"r@{k}", justify="right")
     table.add_column("MRR", justify="right")
-    table.add_column("chunks", justify="right")
     table.add_column("time", justify="right")
     table.add_column("")
 
@@ -103,9 +116,8 @@ def build_table(
         row += [f"{run.metrics.get(f'recall@{k}', 0.0):.2f}" for k in recall_ks(runs)]
         row += [
             f"{run.metrics.get('mrr', 0.0):.2f}",
-            str(run.timing.get("chunks", "")),
             f"{total_seconds(run):.1f}s",
-            "<- best" if position == 0 else "",
+            "*" if position == 0 else "",
         ]
         table.add_row(*row)
     return table
@@ -126,7 +138,7 @@ def render_table(
 def to_csv(runs: Sequence[RunResult], metric: str | None = None) -> str:
     """One row per run, flat, for a spreadsheet or someone else's tooling."""
     ordered = sort_runs(runs, metric)
-    metric_names = sorted({name for run in runs for name in run.metrics})
+    metric_names = sorted({name for run in runs for name in run.metrics}, key=metric_order)
     columns = [
         "id", "retriever", "strategy", "chunk_size", "overlap", "model",
         *metric_names, "chunks", "total_s",
