@@ -25,6 +25,7 @@ dependencies = ["numpy>=1.26", "rich>=13"]
 
 [project.optional-dependencies]
 dense = ["sentence-transformers>=3"]
+chart = ["matplotlib>=3.8"]
 dev = ["pytest>=8", "ruff>=0.6"]
 
 [project.scripts]
