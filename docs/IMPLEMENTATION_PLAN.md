@@ -36,28 +36,33 @@ question set, and it reports which combination actually retrieves the right pass
 Designed first, because if this is awkward the rest does not matter.
 
 ```bash
-ragsweep init                      # write a starter sweep.yaml and a sample labels file
-ragsweep run                       # run the sweep defined in sweep.yaml
+ragsweep init                      # write a starter sweep.toml and a sample labels file
+ragsweep run                       # run the sweep defined in sweep.toml
 ragsweep run --corpus ./docs --labels ./q.jsonl --out results.json
 ragsweep report results.json       # re-print the table from a saved run
 ragsweep report results.json --chart chart.png --format csv
 ```
 
-`sweep.yaml`:
+`sweep.toml`:
 
-```yaml
-corpus: ./corpus
-labels: ./labels.jsonl
+```toml
+corpus = "./corpus"
+labels = "./labels.jsonl"
 
-retrievers: [dense, bm25, hybrid]
-chunk_sizes: [256, 512, 1024]
-overlaps:    [0, 64, 128]
-strategies:  [fixed, sentence, recursive]
-models:      [sentence-transformers/all-MiniLM-L6-v2]
-k:           [1, 3, 5, 10]
+retrievers  = ["bm25", "dense", "hybrid"]
+strategies  = ["fixed", "sentence", "recursive"]
+chunk_sizes = [256, 512, 1024]
+overlaps    = [0, 64, 128]
+models      = ["sentence-transformers/all-MiniLM-L6-v2"]
+k           = [1, 3, 5, 10]
 
-cache: .cache/ragsweep
+cache = ".cache/ragsweep"
 ```
+
+**Changed from the Monday draft, which said `sweep.yaml`.** YAML would mean adding PyYAML
+as a runtime dependency, and `tomllib` has been in the standard library since 3.11, which
+is already the floor here. For a flat config of lists the two formats are equivalent, so
+the dependency buys nothing.
 
 Everything has a default, so `ragsweep run` with no flags works on a folder of Markdown.
 
