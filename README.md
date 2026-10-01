@@ -54,7 +54,7 @@ slower, more expensive option.
 | Mon | Plan and README ✅ |
 | Tue | Corpus loading, chunking strategies, metrics ✅ |
 | Wed | Embeddings with cache, the three retrievers, the sweep ✅ |
-| Thu | Results schema, reporting, CLI, tests, CI |
+| Thu | Results schema, reporting, CLI, tests, CI ✅ |
 | Fri | Example corpus and labels, real numbers, publish |
 
 ## Non-goals
