@@ -7,59 +7,12 @@ be unusable, because nobody re-runs a tool that takes an hour.
 
 from __future__ import annotations
 
-from pathlib import Path
-
 import pytest
 
-from ragsweep.corpus import Document
+from conftest import DOCUMENTS, LABELS, SMALL
 from ragsweep.embedding import EmbeddingCache
 from ragsweep.labels import Label
 from ragsweep.sweep import RunSpec, SweepConfig, plan_runs, run_sweep
-
-DOCUMENTS = [
-    Document(
-        id="refunds.md",
-        path=Path("refunds.md"),
-        text=(
-            "Refunds are processed within five business days of approval. "
-            "Approval is required for any refund above five hundred dollars. "
-            "Customers must request a refund within thirty days of delivery."
-        ),
-    ),
-    Document(
-        id="shipping.md",
-        path=Path("shipping.md"),
-        text=(
-            "Shipping is free on orders over fifty dollars. "
-            "Express delivery arrives the next working day. "
-            "International orders take up to fourteen days."
-        ),
-    ),
-    Document(
-        id="leave.md",
-        path=Path("leave.md"),
-        text=(
-            "Annual leave must be requested two weeks in advance. "
-            "Unused leave does not carry over into the next year. "
-            "Sick leave requires a note after three consecutive days."
-        ),
-    ),
-]
-
-LABELS = [
-    Label("q1", "How long does a refund take?", frozenset({"refunds.md"}), ("policy",)),
-    Label("q2", "When is shipping free?", frozenset({"shipping.md"}), ("policy",)),
-    Label("q3", "How far ahead must leave be requested?", frozenset({"leave.md"}), ("hr",)),
-]
-
-SMALL = SweepConfig(
-    retrievers=("bm25", "dense", "hybrid"),
-    strategies=("sentence",),
-    chunk_sizes=(120,),
-    overlaps=(0,),
-    models=("hashing-256",),
-    ks=(1, 3),
-)
 
 
 class TestPlanRuns:
