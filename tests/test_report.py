@@ -49,12 +49,19 @@ class TestMetricDiscovery:
     def test_finds_every_k(self, runs):
         assert recall_ks(runs) == [1, 3, 5]
 
-    def test_defaults_to_the_deepest_recall(self, runs):
-        assert default_metric(runs) == "recall@5"
+    def test_defaults_to_mrr(self, runs):
+        """Deepest recall saturates at 1.00 and then ranks on speed instead of quality."""
+        assert default_metric(runs) == "mrr"
 
-    def test_falls_back_to_mrr_when_there_is_no_recall(self):
-        run = RunResult(id="x", config={}, metrics={"mrr": 1.0}, timing={})
-        assert default_metric([run]) == "mrr"
+    def test_falls_back_to_the_deepest_recall_without_mrr(self):
+        run = RunResult(id="x", config={}, metrics={"recall@1": 1.0, "recall@5": 1.0}, timing={})
+        assert default_metric([run]) == "recall@5"
+
+    def test_saturated_recall_would_hide_the_winner(self, runs):
+        """The regression this default exists to prevent."""
+        by_recall = sort_runs(runs, "recall@5")
+        by_mrr = sort_runs(runs)
+        assert by_mrr[0].metrics["mrr"] >= by_recall[0].metrics["mrr"]
 
 
 class TestSorting:

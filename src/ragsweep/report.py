@@ -47,7 +47,16 @@ def recall_ks(runs: Sequence[RunResult]) -> list[int]:
 
 
 def default_metric(runs: Sequence[RunResult]) -> str:
-    """Rank on the deepest recall by default: it is the one that bounds answer quality."""
+    """Rank on MRR by default.
+
+    The obvious choice is the deepest recall, since that bounds what can reach the
+    context window. In practice it saturates: on a corpus of any reasonable quality
+    every configuration finds the right document somewhere in the top ten, every row
+    reads 1.00, and the table silently falls back to ranking on speed. MRR uses the
+    whole ranking and keeps separating configurations after recall has flattened.
+    """
+    if any("mrr" in run.metrics for run in runs):
+        return "mrr"
     ks = recall_ks(runs)
     return f"recall@{ks[-1]}" if ks else "mrr"
 
