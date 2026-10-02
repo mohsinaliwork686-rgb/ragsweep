@@ -244,6 +244,7 @@ wrong, and nobody would be able to tell.
 | The synthetic corpus looks self-serving | Say plainly in the README that it is synthetic and exists as a worked example, not a benchmark |
 | Hand-written labels are subtly wrong | Keep it to 30 questions so each one can be checked properly. Quality over quantity |
 | Scope creep into generation quality | It is in the non-goals. Hold the line |
+| PyTorch has no Python 3.14 wheels, so `[dense]` cannot install there | Found on the day. The base install is unaffected, and the README says so plainly rather than letting someone discover it mid-install |
 
 ## 10. Definition of done
 
