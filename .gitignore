@@ -16,4 +16,5 @@ chart.png
 
 # ...except the worked example, which the README points at
 !examples/results.json
+demo-results.json
 !examples/chart.png

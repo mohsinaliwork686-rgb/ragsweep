@@ -24,8 +24,10 @@ lint:
 
 check: lint test
 
+# hashing-512 needs no extras, so this runs on a bare install. For the numbers in the
+# README, install ".[dense]" and drop the --model flag to use the config's real model.
 demo:
-	cd examples && ../$(PY) -m ragsweep run
+	cd examples && ../$(PY) -m ragsweep run --model hashing-512 --out demo-results.json
 
 clean:
 	rm -rf build dist *.egg-info .pytest_cache .ruff_cache .cache

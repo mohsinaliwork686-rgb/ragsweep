@@ -10,6 +10,7 @@ import argparse
 import json
 import sys
 import tomllib
+from dataclasses import replace
 from pathlib import Path
 
 from rich.console import Console
@@ -129,6 +130,12 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--corpus", type=Path, help="override the corpus folder")
     run.add_argument("--labels", type=Path, help="override the labels file")
     run.add_argument("--out", type=Path, default=Path("results.json"))
+    run.add_argument(
+        "--model",
+        action="append",
+        dest="models",
+        help="override the models from the config. Repeat for several",
+    )
     run.add_argument("--cache", type=Path, help="override the embedding cache folder")
     run.add_argument("--no-cache", action="store_true", help="re-embed everything")
     run.add_argument("--metric", help="rank the table on this metric")
@@ -183,6 +190,8 @@ def _run(args, console: Console) -> int:
     corpus_path = args.corpus or corpus_path
     labels_path = args.labels or labels_path
     cache_path = None if args.no_cache else (args.cache or cache_path)
+    if args.models:
+        config = replace(config, models=tuple(args.models))
 
     documents = load_corpus(corpus_path)
     labels = load_labels(labels_path)

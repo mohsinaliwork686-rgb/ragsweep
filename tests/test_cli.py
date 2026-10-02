@@ -116,6 +116,27 @@ class TestRun:
         printed = capsys.readouterr().out
         assert "warning" in printed and "typo.md" in printed
 
+    def test_model_override(self, project, tmp_path, capsys):
+        root, config = project
+        config.write_text(
+            config.read_text().replace('["hashing-256"]', '["needs-a-download"]'), encoding="utf-8"
+        )
+        assert main([
+            "run", "--config", str(config), "--model", "hashing-64",
+            "--out", str(tmp_path / "r.json"), "--quiet",
+        ]) == 0
+        assert "hashing-64" in json.loads((tmp_path / "r.json").read_text())["runs"][1]["id"]
+
+    def test_several_model_overrides(self, project, tmp_path):
+        _, config = project
+        out = tmp_path / "r.json"
+        main([
+            "run", "--config", str(config), "--model", "hashing-64",
+            "--model", "hashing-128", "--out", str(out), "--quiet",
+        ])
+        models = {r["config"]["model"] for r in json.loads(out.read_text())["runs"]}
+        assert models == {None, "hashing-64", "hashing-128"}
+
     def test_no_cache_still_works(self, project, tmp_path):
         _, config = project
         assert main([
@@ -197,3 +218,19 @@ class TestParser:
         with pytest.raises(SystemExit) as exit_info:
             main([])
         assert exit_info.value.code == 2
+
+
+class TestModuleEntryPoint:
+    def test_python_dash_m_works(self):
+        """The documented layout promises `python -m ragsweep`, so it has to exist."""
+        import subprocess
+        import sys
+
+        result = subprocess.run(
+            [sys.executable, "-m", "ragsweep", "--version"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        assert result.returncode == 0
+        assert "ragsweep" in result.stdout
