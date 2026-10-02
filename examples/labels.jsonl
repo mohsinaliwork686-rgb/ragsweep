@@ -1,0 +1,31 @@
+{"id": "q01", "question": "How many days of paid holiday do staff get each year?", "relevant": ["annual-leave.md"], "tags": ["simple"]}
+{"id": "q02", "question": "How long does it take for a refund to be processed?", "relevant": ["refunds.md"], "tags": ["simple"]}
+{"id": "q03", "question": "When is standard delivery free?", "relevant": ["shipping.md"], "tags": ["simple"]}
+{"id": "q04", "question": "How long must a password be?", "relevant": ["security.md"], "tags": ["simple"]}
+{"id": "q05", "question": "How long are customer order records kept?", "relevant": ["data-retention.md"], "tags": ["simple"]}
+{"id": "q06", "question": "What happens during a new starter's first week?", "relevant": ["onboarding.md"], "tags": ["simple"]}
+{"id": "q07", "question": "How much parental leave does the primary carer get?", "relevant": ["parental-leave.md"], "tags": ["simple"]}
+{"id": "q08", "question": "What counts as a severity one incident?", "relevant": ["incident-response.md"], "tags": ["simple"]}
+{"id": "q09", "question": "How many days a week can staff work away from the office?", "relevant": ["remote-work.md"], "tags": ["simple"]}
+{"id": "q10", "question": "What does a purchase request need to include?", "relevant": ["procurement.md"], "tags": ["simple"]}
+{"id": "q11", "question": "How do I get my money back?", "relevant": ["refunds.md"], "tags": ["vocabulary-mismatch"]}
+{"id": "q12", "question": "Who pays for my internet at home?", "relevant": ["remote-work.md", "expenses-exclusions.md"], "tags": ["multi-hop", "vocabulary-mismatch"]}
+{"id": "q13", "question": "What do I do if I am too ill to work?", "relevant": ["sick-leave.md"], "tags": ["vocabulary-mismatch"]}
+{"id": "q14", "question": "I lost my laptop, who should I tell?", "relevant": ["contact.md"], "tags": ["vocabulary-mismatch"]}
+{"id": "q15", "question": "Can I expense a parking ticket?", "relevant": ["expenses-exclusions.md"], "tags": ["negation"]}
+{"id": "q16", "question": "Is there anything I cannot claim back?", "relevant": ["expenses-exclusions.md"], "tags": ["vocabulary-mismatch", "negation"]}
+{"id": "q17", "question": "How long do I have to send goods back?", "relevant": ["returns.md"], "tags": ["distractor"]}
+{"id": "q18", "question": "How long do I have to ask for a refund?", "relevant": ["refunds.md"], "tags": ["distractor"]}
+{"id": "q19", "question": "How long does delivery take abroad?", "relevant": ["international-shipping.md"], "tags": ["distractor"]}
+{"id": "q20", "question": "Do I need a doctor's note?", "relevant": ["sick-leave.md"], "tags": ["distractor"]}
+{"id": "q21", "question": "What should the first responder do when customers are affected?", "relevant": ["incident-response.md"], "tags": ["distractor"]}
+{"id": "q22", "question": "Who needs to approve a nine hundred dollar refund?", "relevant": ["refunds.md", "approvals.md"], "tags": ["multi-hop"]}
+{"id": "q23", "question": "Can I buy a two thousand dollar monitor myself?", "relevant": ["procurement.md", "approvals.md"], "tags": ["multi-hop"]}
+{"id": "q24", "question": "A new starter needs their accounts set up, who does that?", "relevant": ["onboarding.md", "contact.md"], "tags": ["multi-hop"]}
+{"id": "q25", "question": "Can I claim back a desk I bought myself?", "relevant": ["procurement.md", "remote-work.md"], "tags": ["multi-hop"]}
+{"id": "q26", "question": "Which expenses are never reimbursed?", "relevant": ["expenses-exclusions.md"], "tags": ["negation"]}
+{"id": "q27", "question": "Is alcohol covered on a work dinner?", "relevant": ["expenses-exclusions.md"], "tags": ["negation"]}
+{"id": "q28", "question": "Does unused holiday roll over into the next year?", "relevant": ["annual-leave.md"], "tags": ["negation"]}
+{"id": "q29", "question": "Who approves a purchase above five thousand dollars?", "relevant": ["approvals.md"], "tags": ["simple"]}
+{"id": "q30", "question": "Can someone approve their own request?", "relevant": ["approvals.md"], "tags": ["negation"]}
+{"id": "q31", "question": "Is a card statement enough to claim an expense?", "relevant": ["expenses.md"], "tags": ["distractor"]}

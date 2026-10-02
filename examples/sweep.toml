@@ -1,0 +1,19 @@
+# The worked example that ships with ragsweep.
+#
+# The corpus is a synthetic company handbook written for this repo. It exists so the
+# numbers in the README are reproducible, not as a general benchmark. Point `corpus`
+# at your own documents to get an answer that means something for your system.
+
+corpus = "./handbook"
+labels = "./labels.jsonl"
+
+retrievers  = ["bm25", "dense", "hybrid"]
+strategies  = ["fixed", "sentence", "recursive"]
+chunk_sizes = [256, 512, 1024]
+overlaps    = [0, 64]
+
+models = ["sentence-transformers/all-MiniLM-L6-v2"]
+
+k = [1, 3, 5, 10]
+
+cache = "../.cache/ragsweep"
