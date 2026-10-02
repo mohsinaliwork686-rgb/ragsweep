@@ -186,8 +186,9 @@ A tool like this is worthless without data anyone can run it on. Three options w
 | Public documentation (Python, Kubernetes) | Licensing is workable but the text is long and uneven, and writing good ground truth over it is slow |
 | **Write a small fictional company handbook** | **Chosen.** Fully owned, MIT, and I control the difficulty |
 
-**Decision: write a 15-document fictional company handbook** (refunds, approvals, shipping, leave
-policy, expenses, security, onboarding, and so on), plus 30 hand-written questions. This mirrors
+**Decision: write a fictional company handbook** (refunds, approvals, shipping, leave policy,
+expenses, security, onboarding, and so on), plus hand-written questions. It came out at 17
+documents and 31 questions. This mirrors
 the most common real RAG use case — internal documents — and it lets me deliberately include the
 cases that break naive retrieval:
 
@@ -250,7 +251,7 @@ wrong, and nobody would be able to tell.
 - [ ] This plan, committed before the code
 - [ ] README: the problem, a real output table, install, usage, config, non-goals, and an honest
       note about the synthetic corpus
-- [ ] 15-document corpus and 30 labelled questions in the repo
+- [ ] Example corpus and labelled questions in the repo
 - [ ] Test suite covering the table in section 8, no network access
 - [ ] CI green: tests and ruff
 - [ ] `results.json` schema documented in the README, since week 6 depends on it
