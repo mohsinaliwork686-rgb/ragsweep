@@ -37,6 +37,8 @@ DEFAULT_CONFIG = "sweep.toml"
 
 SWEEP_TEMPLATE = """\
 # Which documents to search, and the questions to score against.
+# On Windows use forward slashes, or single quotes: TOML treats a backslash inside
+# double quotes as an escape, so "C:\\docs" is not a valid string.
 corpus = "./corpus"
 labels = "./labels.jsonl"
 

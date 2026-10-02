@@ -9,15 +9,16 @@ import pytest
 from ragsweep.cli import main
 
 SWEEP = """\
-corpus = "{corpus}"
-labels = "{labels}"
+corpus = '{corpus}'
+labels = '{labels}'
+
 retrievers  = ["bm25", "dense"]
 strategies  = ["fixed"]
 chunk_sizes = [120]
 overlaps    = [0]
 models      = ["hashing-256"]
 k           = [1, 3]
-cache = "{cache}"
+cache = '{cache}'
 """
 
 
@@ -37,6 +38,21 @@ def results(project, tmp_path):
     out = tmp_path / "results.json"
     assert main(["run", "--config", str(config), "--out", str(out), "--quiet"]) == 0
     return out
+
+
+class TestWindowsPaths:
+    def test_a_backslash_path_in_the_config_is_read_literally(self, tmp_path, corpus_on_disk):
+        """TOML double quotes process escapes, so C:\\Users\\... breaks. Single quotes do not."""
+        from ragsweep.cli import load_sweep_file
+
+        root, corpus, labels = corpus_on_disk
+        config = tmp_path / "sweep.toml"
+        config.write_text(
+            f"corpus = '{corpus}'\nlabels = '{labels}'\nchunk_sizes = [120]\n", encoding="utf-8"
+        )
+        _, corpus_path, labels_path, _ = load_sweep_file(config)
+        assert corpus_path.name == "corpus"
+        assert labels_path.name == "labels.jsonl"
 
 
 class TestInit:

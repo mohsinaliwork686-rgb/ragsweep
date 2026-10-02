@@ -129,6 +129,10 @@ cache = ".cache/ragsweep"
 Every combination of those lists is measured. Combinations where overlap is at least the
 chunk size are skipped rather than failing the run.
 
+> **On Windows**, write paths with forward slashes (`./corpus`) or single quotes
+> (`'C:\docs\handbook'`). TOML processes backslash escapes inside double quotes, so
+> `"C:\Users\..."` is not a valid TOML string.
+
 ## The labels file
 
 Relevance is recorded per **document**, never per chunk. Chunk ids change every time the
