@@ -175,6 +175,10 @@ re-run while tuning and one you run once and abandon.
 `results.json` carries per-case detail, not just the aggregates, so a later run can be
 diffed against it question by question. Averages are exactly what hides a regression.
 
+To do that diff, open the file in [evalboard](https://mohsinaliwork686-rgb.github.io/evalboard/)
+and pick any two runs: it shows which questions newly fail, which newly pass, and how far each
+score moved. The file is read in the browser and never uploaded.
+
 ```json
 {
   "schema": 1,
